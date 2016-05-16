@@ -22,7 +22,7 @@ void MainWindow::addNewTab(){
     bool ok;
     QString text = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
     if (ok && !text.isEmpty())
-        ui->tabWidget->addTab(new QTableView(this), text);
+        ui->tabWidget->addTab(new DocumentView(this), text);
 }
 
 MainWindow::~MainWindow()

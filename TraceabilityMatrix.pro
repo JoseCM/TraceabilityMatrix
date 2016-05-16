@@ -19,4 +19,5 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     documentview.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    documentview.ui

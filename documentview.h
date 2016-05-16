@@ -1,13 +1,22 @@
 #ifndef DOCUMENTVIEW_H
 #define DOCUMENTVIEW_H
 
-#include <QObject>
 #include <QWidget>
 
-class DocumentView : public QTableView
+namespace Ui {
+class DocumentView;
+}
+
+class DocumentView : public QWidget
 {
+    Q_OBJECT
+
 public:
-    DocumentView();
+    explicit DocumentView(QWidget *parent = 0);
+    ~DocumentView();
+
+private:
+    Ui::DocumentView *ui;
 };
 
 #endif // DOCUMENTVIEW_H

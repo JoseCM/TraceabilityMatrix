@@ -6,6 +6,7 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QDir>
+#include <documentview.h>
 
 namespace Ui {
 class MainWindow;
