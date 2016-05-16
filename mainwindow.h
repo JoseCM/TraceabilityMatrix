@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QDir>
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +19,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void addNewTab();
+
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel *model;
 };
 
 #endif // MAINWINDOW_H
