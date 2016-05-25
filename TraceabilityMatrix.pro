@@ -14,10 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    documentview.cpp
+    documentview.cpp \
+    checkboxdelegate.cpp \
+    traceabilityview.cpp \
+    documenteditorview.cpp
 
 HEADERS  += mainwindow.h \
-    documentview.h
+    documentview.h \
+    checkboxdelegate.h \
+    traceabilityview.h \
+    documenteditorview.h
 
 FORMS    += mainwindow.ui \
-    documentview.ui
+    documentview.ui \
+    traceabilityview.ui \
+    documenteditorview.ui

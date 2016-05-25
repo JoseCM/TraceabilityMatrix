@@ -1,0 +1,40 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+
+
+
+//    QStandardItem *item = new QStandardItem();
+//    item->setCheckable(true);
+//    item->setEditable(false);
+//    model->setItemPrototype(item);
+//    model->setColumnCount(2);
+//    model->setRowCount(2);
+    
+//    QModelIndex index = model()->index(0, 0, QModelIndex());
+//    QAbstractItemView::setIndexWidget(index, widget);
+
+
+
+
+//    QWidget *par = new QWidget();
+//    QWidget *wi =  new QCheckBox();
+//    QHBoxLayout * layout = new QHBoxLayout(par);
+//    layout->addWidget(wi);
+//    layout->setAlignment(Qt::AlignCenter);
+//    layout->setMargin(0);
+//    par->setLayout(layout);
+//    ui->tableView->setIndexWidget(model->index(0, 0), par);
+
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
