@@ -2,6 +2,9 @@
 #define DOCUMENTEDITORVIEW_H
 
 #include <QWidget>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <documentview.h>
 
 namespace Ui {
 class DocumentEditorView;

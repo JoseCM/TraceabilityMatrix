@@ -11,7 +11,8 @@
 #include <QCheckBox>
 #include <QItemEditorFactory>
 #include <QItemDelegate>
-#include "checkboxdelegate.h"
+#include <documenteditorview.h>
+#include <traceabilityview.h>
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    DocumentEditorView *editor;
+    TraceabilityView *traceability;
 };
 
 #endif // MAINWINDOW_H

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStandardItemModel>
+#include "checkboxdelegate.h"
 
 namespace Ui {
 class TraceabilityView;
@@ -19,6 +20,7 @@ public:
 private:
     Ui::TraceabilityView *ui;
     QStandardItemModel *model;
+
 };
 
 #endif // TRACEABILITYVIEW_H
