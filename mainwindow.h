@@ -7,6 +7,11 @@
 #include <QLineEdit>
 #include <QDir>
 #include <documentview.h>
+#include <QStandardItem>
+#include <QCheckBox>
+#include <QItemEditorFactory>
+#include <QItemDelegate>
+#include "checkboxdelegate.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,12 +25,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-public slots:
-    void addNewTab();
-
 private:
     Ui::MainWindow *ui;
-    QStandardItemModel *model;
 };
 
 #endif // MAINWINDOW_H
