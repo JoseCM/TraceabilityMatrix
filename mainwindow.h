@@ -13,6 +13,7 @@
 #include <QItemDelegate>
 #include <documenteditorview.h>
 #include <traceabilityview.h>
+#include <QTableView>
 
 namespace Ui {
 class MainWindow;
@@ -26,10 +27,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void showEditor();
+    void showTraceability();
+    void showRequirements();
+
 private:
     Ui::MainWindow *ui;
     DocumentEditorView *editor;
     TraceabilityView *traceability;
+    DocumentView *requirements;
 };
 
 #endif // MAINWINDOW_H

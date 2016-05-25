@@ -7,6 +7,8 @@ DocumentView::DocumentView(QWidget *parent) :
 {
     ui->setupUi(this);
     model = new QStandardItemModel(0, 0, this);
+    model->setHorizontalHeaderItem(model->columnCount(), new QStandardItem("ID"));
+    model->setHorizontalHeaderItem(model->columnCount(), new QStandardItem("Name"));
     ui->tableView->setModel(model);
 
     QObject::connect(ui->addRowButton, SIGNAL(pressed()), this, SLOT(addRow()));
@@ -26,6 +28,5 @@ void DocumentView::addColumn(){
 
 void DocumentView::addRow(){
     bool ok;
-    QString name = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
-    model->setVerticalHeaderItem(model->rowCount(), new QStandardItem(name));
+    model->setVerticalHeaderItem(model->rowCount(), new QStandardItem(""));
 }

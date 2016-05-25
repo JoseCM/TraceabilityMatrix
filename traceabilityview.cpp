@@ -13,8 +13,6 @@ TraceabilityView::TraceabilityView(QWidget *parent) :
     QItemDelegate* del = new CheckBoxDelegate(this);
     ui->tableView->setItemDelegate(del);
 
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
     model->setHorizontalHeaderItem(0, new QStandardItem(QString("Coluna 1")));
     model->setHorizontalHeaderItem(1, new QStandardItem(QString("Coluna 2")));
     model->setVerticalHeaderItem(0, new QStandardItem(QString("Linha 1")));
