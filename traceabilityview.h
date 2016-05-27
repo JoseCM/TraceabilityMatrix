@@ -18,8 +18,8 @@ public:
     ~TraceabilityView();
 
 private:
-    Ui::TraceabilityView *ui;
-    QStandardItemModel *model;
+    Ui::TraceabilityView *ui;  
+    QList<QStandardItemModel*> modellist;
 
 };
 

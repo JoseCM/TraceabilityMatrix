@@ -8,7 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     editor = new DocumentEditorView(this);
     editor->hide();
-    requirements = new DocumentView(this);
+    QString *str = new QString("Requirements Document");
+    requirements = new DocumentView(*str, this);
     requirements->hide();
     traceability = new TraceabilityView(this);
     ui->centralWidget->layout()->addWidget(traceability);

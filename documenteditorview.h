@@ -5,10 +5,12 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <documentview.h>
+#include <list>
 
 namespace Ui {
 class DocumentEditorView;
 }
+
 
 class DocumentEditorView : public QWidget
 {
@@ -23,6 +25,8 @@ public slots:
 
 private:
     Ui::DocumentEditorView *ui;
+    std::list<DocumentView*> documentlist;
+
 };
 
 #endif // DOCUMENTEDITORVIEW_H

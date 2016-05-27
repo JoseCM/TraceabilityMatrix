@@ -15,7 +15,7 @@ class DocumentView : public QWidget
     Q_OBJECT
 
 public:
-    explicit DocumentView(QWidget *parent = 0);
+    explicit DocumentView(QString &name, QWidget *parent = 0);
     ~DocumentView();
 
 public slots:
@@ -25,6 +25,7 @@ public slots:
 private:
     Ui::DocumentView *ui;
     QStandardItemModel *model;
+    QString name;
 };
 
 #endif // DOCUMENTVIEW_H

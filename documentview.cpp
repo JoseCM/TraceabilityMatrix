@@ -1,9 +1,9 @@
 #include "documentview.h"
 #include "ui_documentview.h"
 
-DocumentView::DocumentView(QWidget *parent) :
+DocumentView::DocumentView(QString &name, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DocumentView)
+    ui(new Ui::DocumentView), name(name)
 {
     ui->setupUi(this);
     model = new QStandardItemModel(0, 0, this);
