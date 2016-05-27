@@ -3,7 +3,7 @@
 
 DocumentView::DocumentView(QString &name, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DocumentView), name(name)
+    ui(new Ui::DocumentView), QStandardItem(name), name(name)
 {
     ui->setupUi(this);
     model = new QStandardItemModel(0, 0, this);

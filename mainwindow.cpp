@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->showReq, SIGNAL(pressed()), this, SLOT(showRequirements()));
     QObject::connect(ui->showEdit, SIGNAL(pressed()), this, SLOT(showEditor()));
     QObject::connect(ui->showTrace, SIGNAL(pressed()), this, SLOT(showTraceability()));
+    QObject::connect(editor, SIGNAL(docAdded(QStandardItem*)), traceability, SLOT(addModels(QStandardItem*)));
 
 }
 

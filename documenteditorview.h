@@ -8,6 +8,7 @@
 #include <list>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QStandardItem>
 
 
 namespace Ui {
@@ -22,6 +23,9 @@ class DocumentEditorView : public QWidget
 public:
     explicit DocumentEditorView(QWidget *parent = 0);
     ~DocumentEditorView();
+
+signals:
+    void docAdded(QStandardItem *);
 
 public slots:
     void addNewTab();

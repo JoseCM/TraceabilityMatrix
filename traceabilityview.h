@@ -17,9 +17,13 @@ public:
     explicit TraceabilityView(QWidget *parent = 0);
     ~TraceabilityView();
 
+public slots:
+    void addModels(QStandardItem*);
+
 private:
     Ui::TraceabilityView *ui;  
     QList<QStandardItemModel*> modellist;
+    QStandardItemModel otherDocsModel;
 
 };
 

@@ -22,5 +22,6 @@ void DocumentEditorView::addNewTab(){
         DocumentView *newdoc = new DocumentView(text, this);
         ui->tabWidget->addTab(newdoc, text);
         documentlist.push_back(newdoc);
+        docAdded(newdoc);
    }
 }

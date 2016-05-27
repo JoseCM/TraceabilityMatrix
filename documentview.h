@@ -15,7 +15,7 @@ namespace Ui {
 class DocumentView;
 }
 
-class DocumentView : public QWidget
+class DocumentView : public QWidget, public QStandardItem
 {
     Q_OBJECT
     QMessageBox* msgBox;

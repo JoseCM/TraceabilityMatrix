@@ -17,8 +17,11 @@ TraceabilityView::TraceabilityView(QWidget *parent) :
 //    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Coluna 2")));
 //    model->setVerticalHeaderItem(0, new QStandardItem(QString("Linha 1")));
 //    model->setVerticalHeaderItem(1, new QStandardItem(QString("Linha 2")));
+    ui->comboBox->setModel(&otherDocsModel);
+}
 
-//     ui->comboBox->setModel(ui);
+void TraceabilityView::addModels(QStandardItem *item){
+    otherDocsModel.setItem(otherDocsModel.rowCount(), item);
 }
 
 TraceabilityView::~TraceabilityView()
