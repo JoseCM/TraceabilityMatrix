@@ -14,6 +14,8 @@
 #include <documenteditorview.h>
 #include <traceabilityview.h>
 #include <QTableView>
+#include <QMouseEvent>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +24,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    QMessageBox* msgBox;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -31,6 +34,7 @@ public slots:
     void showEditor();
     void showTraceability();
     void showRequirements();
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     Ui::MainWindow *ui;

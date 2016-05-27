@@ -22,4 +22,3 @@ void DocumentEditorView::addNewTab(){
     if (ok && !text.isEmpty())
         ui->tabWidget->addTab(new DocumentView(this), text);
 }
-

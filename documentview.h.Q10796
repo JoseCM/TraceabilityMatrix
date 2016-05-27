@@ -6,10 +6,7 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMouseEvent>
-#include <QMouseEvent>
 #include <QMessageBox>
-#include <QItemSelectionModel>
-#include <QItemSelection>
 
 namespace Ui {
 class DocumentView;
@@ -27,8 +24,8 @@ public:
 public slots:
     void addColumn();
     void addRow();
-    void deleteColumn();
-    void deleteRow();
+    void deleteColumn(int selCol);
+    void deleteRow(int selRow);
     void mousePressEvent(QMouseEvent *event);
 
 private:

@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\documentview.o
+./release\checkboxdelegate.o
+./release\traceabilityview.o
+./release\documenteditorview.o
+./release\moc_mainwindow.o
+./release\moc_documentview.o
+./release\moc_traceabilityview.o
+./release\moc_documenteditorview.o
+);

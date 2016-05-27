@@ -4,6 +4,8 @@
 #include <QItemDelegate>
 #include <QCheckBox>
 #include <QHBoxLayout>
+#include <QMessageBox>
+#include <QMouseEvent>
 
 class BooleanWidget : public QWidget
 {

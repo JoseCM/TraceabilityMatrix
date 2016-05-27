@@ -47,6 +47,16 @@ void MainWindow::showRequirements(){
     requirements->show();
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::RightButton)
+    {
+        msgBox = new QMessageBox();
+        msgBox->setWindowTitle("Hello");
+        msgBox->setText("You Clicked Right Mouse Button");
+        msgBox->show();
+    }
+}
 
 MainWindow::~MainWindow()
 {

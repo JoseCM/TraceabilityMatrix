@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\documentview.o
+./debug\checkboxdelegate.o
+./debug\traceabilityview.o
+./debug\documenteditorview.o
+./debug\moc_mainwindow.o
+./debug\moc_documentview.o
+./debug\moc_traceabilityview.o
+./debug\moc_documenteditorview.o
+);

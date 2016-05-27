@@ -5,6 +5,8 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <documentview.h>
+#include <QMessageBox>
+#include <QMouseEvent>
 
 namespace Ui {
 class DocumentEditorView;
