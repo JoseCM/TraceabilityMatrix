@@ -18,7 +18,7 @@ TraceabilityView::TraceabilityView(QWidget *parent) :
 //    model->setVerticalHeaderItem(0, new QStandardItem(QString("Linha 1")));
 //    model->setVerticalHeaderItem(1, new QStandardItem(QString("Linha 2")));
 
-     ui->comboBox->setModel(ui);
+//     ui->comboBox->setModel(ui);
 }
 
 TraceabilityView::~TraceabilityView()

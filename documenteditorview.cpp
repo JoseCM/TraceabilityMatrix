@@ -24,4 +24,3 @@ void DocumentEditorView::addNewTab(){
         documentlist.push_back(newdoc);
    }
 }
-

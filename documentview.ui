@@ -33,6 +33,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="delRowButtom">
+       <property name="text">
+        <string>Delete Row</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="delColButtom">
+       <property name="text">
+        <string>Delete Column</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

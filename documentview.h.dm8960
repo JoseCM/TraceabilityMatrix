@@ -6,10 +6,8 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMouseEvent>
-#include <QMouseEvent>
 #include <QMessageBox>
-#include <QItemSelectionModel>
-#include <QItemSelection>
+#include <QMenu>
 
 namespace Ui {
 class DocumentView;
@@ -21,20 +19,20 @@ class DocumentView : public QWidget
     QMessageBox* msgBox;
 
 public:
-    explicit DocumentView(QString &name, QWidget *parent = 0);
+    explicit DocumentView(QWidget *parent = 0);
     ~DocumentView();
 
 public slots:
     void addColumn();
     void addRow();
-    void deleteColumn();
-    void deleteRow();
+    void deleteColumn(int selCol);
+    void deleteRow(int selRow);
     void mousePressEvent(QMouseEvent *event);
+    void Popup(const QPoint& pt);
 
 private:
     Ui::DocumentView *ui;
     QStandardItemModel *model;
-    QString name;
 };
 
 #endif // DOCUMENTVIEW_H

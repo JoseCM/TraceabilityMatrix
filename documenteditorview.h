@@ -6,6 +6,9 @@
 #include <QLineEdit>
 #include <documentview.h>
 #include <list>
+#include <QMessageBox>
+#include <QMouseEvent>
+
 
 namespace Ui {
 class DocumentEditorView;
