@@ -30,10 +30,8 @@ void DocumentView::addColumn(){
 
 void DocumentView::addRow(){
     bool ok;
-    // model->insertRow(model->rowCount(), new QStandardItem(""));
-    //QString name = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
-    model->setVerticalHeaderItem(model->rowCount(), new QStandardItem(""));
-
+    QStandardItem *item = model->invisibleRootItem();
+    item->appendRow(new QStandardItem(""));
 }
 
 void DocumentView::deleteRow(){

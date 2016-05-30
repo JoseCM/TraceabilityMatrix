@@ -25,6 +25,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+    void addRow(const QString &lines, TreeItem *parent);
+
 private:
     void setupModelData(const QStringList &lines, TreeItem *parent);
 

@@ -103,6 +103,23 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
+void TreeModel::addRow(const QString &string, TreeItem *parent){
+
+    if(parent == nullptr)
+        parent = rootItem;
+
+    QList<TreeItem*> parents;
+    parents << parent;
+
+    QStringList list;
+    list.append(string);
+    QList<QVariant> columnData;
+    columnData << string;
+
+    parents.last()->appendChild(new TreeItem(columnData, parents.last()));
+    dataChanged(index(0,0), index(rowCount(), columnCount()));
+}
+
 void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 {
     QList<TreeItem*> parents;
