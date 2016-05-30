@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include "checkboxdelegate.h"
+#include "documentview.h"
 
 namespace Ui {
 class TraceabilityView;
@@ -22,8 +23,10 @@ public slots:
 
 private:
     Ui::TraceabilityView *ui;  
-    QList<QStandardItemModel*> modellist;
+    QStandardItemModel *model;
+    QList<QStandardItemModel*> traceModelList;
     QStandardItemModel otherDocsModel;
+    DocumentView *requirements;
 
 };
 
