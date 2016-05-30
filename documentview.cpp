@@ -30,26 +30,30 @@ void DocumentView::addColumn(){
     QString name = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
-    for(int i = 0 ; i < item->rowCount(); i++)
-        item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
-    list << new QStandardItem("name");
-    item->appendColumn(list);
+    if(item->rowCount() > 0){
+        for(int i = 0 ; i < item->rowCount(); i++)
+         item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
+        list << new QStandardItem("");
+        item->appendColumn(list);
+    }
     labels << name;
     model->setHorizontalHeaderLabels(labels);
 }
 
 void DocumentView::addRow(){
+    static int count = 1;
     bool ok;
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
-    list << new QStandardItem("main");
+    list << new QStandardItem(QString::number(count++));
     item->appendRow(list);
 }
 
-void DocumentView::addSubRow(){
-    QStandardItem *item = model->invisibleRootItem()->child(0,0);
+void DocumentView::addSubRow(){    
+    int row = ui->tableView->selectionModel()->selectedRows().first().row();
+    QStandardItem *item = model->invisibleRootItem()->child(row,0);
     QList<QStandardItem*> list;
-    list << new QStandardItem("sub");
+    list << new QStandardItem(item->data().toString() + ".1");
     for(int i = 1; i < model->columnCount(); i++)
         list << new QStandardItem("");
     item->appendRow(list);
