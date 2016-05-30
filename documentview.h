@@ -30,11 +30,13 @@ public slots:
     void deleteColumn();
     void deleteRow();
     void mousePressEvent(QMouseEvent *event);
+    void addSubRow();
 
 private:
     Ui::DocumentView *ui;
     QStandardItemModel *model;
     QString name;
+    QStringList labels;
 };
 
 #endif // DOCUMENTVIEW_H
