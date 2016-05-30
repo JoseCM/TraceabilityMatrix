@@ -17,13 +17,17 @@ SOURCES += main.cpp\
     documentview.cpp \
     checkboxdelegate.cpp \
     traceabilityview.cpp \
-    documenteditorview.cpp
+    documenteditorview.cpp \
+    treeitem.cpp \
+    treemodel.cpp
 
 HEADERS  += mainwindow.h \
     documentview.h \
     checkboxdelegate.h \
     traceabilityview.h \
-    documenteditorview.h
+    documenteditorview.h \
+    treeitem.h \
+    treemodel.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \
