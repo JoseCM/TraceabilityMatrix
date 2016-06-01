@@ -25,7 +25,7 @@ public:
     ~DocumentEditorView();
 
 signals:
-    void docAdded(QStandardItem *);
+    void docAdded(DocumentView *);
 
 public slots:
     void addNewTab();

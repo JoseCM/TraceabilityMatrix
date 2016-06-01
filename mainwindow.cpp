@@ -11,13 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QString *str = new QString("Requirements Document");
     requirements = new DocumentView(*str, this);
     requirements->hide();
-    traceability = new TraceabilityView(this);
+    traceability = new TraceabilityView(requirements, this);
     ui->centralWidget->layout()->addWidget(traceability);
 
     QObject::connect(ui->showReq, SIGNAL(pressed()), this, SLOT(showRequirements()));
     QObject::connect(ui->showEdit, SIGNAL(pressed()), this, SLOT(showEditor()));
     QObject::connect(ui->showTrace, SIGNAL(pressed()), this, SLOT(showTraceability()));
-    QObject::connect(editor, SIGNAL(docAdded(QStandardItem*)), traceability, SLOT(addModels(QStandardItem*)));
+    QObject::connect(editor, SIGNAL(docAdded(DocumentView*)), traceability, SLOT(addModels(DocumentView*)));
 
 }
 

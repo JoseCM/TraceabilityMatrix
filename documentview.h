@@ -22,6 +22,8 @@ class DocumentView : public QWidget, public QStandardItem
 
 public:
     explicit DocumentView(QString &name, QWidget *parent = 0);
+    QStringList getHeader();
+    QStandardItemModel* getModel() { return model; }
     ~DocumentView();
 
 public slots:
@@ -31,6 +33,12 @@ public slots:
     void deleteRow();
     void mousePressEvent(QMouseEvent *event);
     void addSubRow();
+
+    void dataChanged(QModelIndex,QModelIndex,QVector<int>);
+
+signals:
+    void addRowToDocument(DocumentView*);
+    void deleteRowOfDocument(DocumentView*, int);
 
 private:
     Ui::DocumentView *ui;

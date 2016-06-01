@@ -5,6 +5,8 @@
 #include <QStandardItemModel>
 #include "checkboxdelegate.h"
 #include "documentview.h"
+#include <QPair>
+#include <QHash>
 
 namespace Ui {
 class TraceabilityView;
@@ -15,18 +17,24 @@ class TraceabilityView : public QWidget
     Q_OBJECT
 
 public:
-    explicit TraceabilityView(QWidget *parent = 0);
+    explicit TraceabilityView(DocumentView *requirements, QWidget *parent = 0);
     ~TraceabilityView();
 
 public slots:
-    void addModels(QStandardItem*);
+    void addModels(DocumentView *);
+    void addRowToDocument(DocumentView *);
+    //void addSubRowToDocument(DocumentView *,int);
+    void deleteRowOfDocument(DocumentView*, int);
+    void selectedDocumentChanged(int);
+
+
 
 private:
     Ui::TraceabilityView *ui;  
     QStandardItemModel *model;
-    QList<QStandardItemModel*> traceModelList;
-    QStandardItemModel otherDocsModel;
+    QHash<DocumentView*, QStandardItemModel*> traceModelList;
     DocumentView *requirements;
+    QStandardItemModel otherDocsModel;
 
 };
 
