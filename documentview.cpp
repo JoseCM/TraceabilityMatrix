@@ -10,8 +10,6 @@ DocumentView::DocumentView(QString &name, QWidget *parent) :
     model = new QStandardItemModel(0, 0, this);
     labels << "ID" << "Name";
     model->setHorizontalHeaderLabels(labels);
-    //model->setHorizontalHeaderItem(model->columnCount(), new QStandardItem("ID"));
-    //model->setHorizontalHeaderItem(model->columnCount(), new QStandardItem("Name"));
     ui->tableView->setModel(model);
 
     QObject::connect(ui->addRowButton, SIGNAL(pressed()), this, SLOT(addRow()));
@@ -29,18 +27,22 @@ DocumentView::~DocumentView()
 }
 
 void DocumentView::addColumn(){
+
     bool ok;
     QString name = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
+
     if(item->rowCount() > 0){
         for(int i = 0 ; i < item->rowCount(); i++)
          item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
         list << new QStandardItem("");
         item->appendColumn(list);
     }
+
     labels << name;
     model->setHorizontalHeaderLabels(labels);
+
 }
 
 void DocumentView::addRow(){
@@ -64,7 +66,6 @@ void DocumentView::addSubRow(){
     int row = ui->tableView->selectionModel()->selectedRows().first().row();
 
     QStandardItem *item = model->invisibleRootItem()->child(row,0);
-    qDebug() << (item->text());
     QList<QStandardItem*> list;
 
     list << new QStandardItem(item->text() + "." + QString::number(item->rowCount( ) +1 ) );
@@ -77,24 +78,51 @@ void DocumentView::addSubRow(){
     ui->tableView->expandAll();
 }
 
+
 void DocumentView::deleteRow(){
-    QModelIndexList indexes = ui->tableView->selectionModel()->selectedRows();
-    int row = indexes.last().row();
-    while (!indexes.isEmpty())
-    {
-        model->removeRows(row, 1);
-        indexes.removeLast();
-    }
-    deleteRowOfDocument(this, row);
+
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+
+    if(index == QModelIndex())
+        return;
+
+    int row = getIndexGlobalRow(index);
+    int count = (index.parent() == QModelIndex() ? model->invisibleRootItem()->child(index.row())->rowCount() : 0);
+
+    model->removeRow(index.row(), index.parent());
+    deleteRowOfDocument(this, row, count + 1);
+    qDebug() << "Row: " << row;
+    qDebug() << "Count: " << count;
+}
+
+int DocumentView::getIndexGlobalRow(QModelIndex &index){
+
+    int count = 0;
+
+   QStandardItem *item = model->itemFromIndex(index);
+
+   if(index.parent() == QModelIndex()){
+      qDebug() << "top";
+       for(int i = 0; i < index.row(); i++){
+           count = count + 1 + model->invisibleRootItem()->child(i)->rowCount();
+       }
+   } else {
+       qDebug() << "sub";
+       for(int i = 0; i < index.parent().row(); i++)
+           count = count + 1  + model->invisibleRootItem()->child(i)->rowCount();
+       count =  count + 1 + index.row();
+   }
+
+   return count;
 }
 
 void DocumentView::deleteColumn(){
-    QModelIndexList indexes = ui->tableView->selectionModel()->selectedColumns();
-    while (!indexes.isEmpty())
-    {
-        model->removeColumns(indexes.last().column(), 1);
-        indexes.removeLast();
-    }
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+
+    if(index == QModelIndex())
+        return;
+
+    model->removeColumn(index.column());
 }
 
 //ISTO LEAKA
@@ -124,3 +152,7 @@ QStringList DocumentView::getHeader(){
 void DocumentView::dataChanged(QModelIndex,QModelIndex,QVector<int>){
      addRowToDocument(this);
 }
+
+
+
+

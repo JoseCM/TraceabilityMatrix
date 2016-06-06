@@ -9,7 +9,7 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     ui->setupUi(this);
     this->requirements = requirements;
     QObject::connect(requirements, SIGNAL(addRowToDocument(DocumentView*)), this, SLOT(addRowToDocument(DocumentView*)));
-    QObject::connect(requirements, SIGNAL(deleteRowOfDocument(DocumentView*,int)), this, SLOT(deleteRowOfDocument(DocumentView*,int)));
+    QObject::connect(requirements, SIGNAL(deleteRowOfDocument(DocumentView*,int,int)), this, SLOT(deleteRowOfDocument(DocumentView*,int,int)));
     model = nullptr;
 
     ui->tableView->setModel(model);
@@ -36,7 +36,7 @@ void TraceabilityView::addModels(DocumentView *item){
     model->setVerticalHeaderLabels(requirements->getHeader());
     traceModelList.insert(item, model);
     QObject::connect(item, SIGNAL(addRowToDocument(DocumentView*)), this, SLOT(addRowToDocument(DocumentView*)));
-    QObject::connect(item, SIGNAL(deleteRowOfDocument(DocumentView*,int)), this, SLOT(deleteRowOfDocument(DocumentView*,int)));
+    QObject::connect(item, SIGNAL(deleteRowOfDocument(DocumentView*,int, int)), this, SLOT(deleteRowOfDocument(DocumentView*,int, int)));
     if(this->model == nullptr){
         this->model = model;
         ui->tableView->setModel(model);
@@ -58,17 +58,17 @@ void TraceabilityView::addRowToDocument(DocumentView *item){
     model->setHorizontalHeaderLabels(item->getHeader());
 }
 
-void TraceabilityView::deleteRowOfDocument(DocumentView *item, int row){
+void TraceabilityView::deleteRowOfDocument(DocumentView *item, int row, int count){
 
     if(item == requirements){
         QList<QStandardItemModel*> list = traceModelList.values();
         for(int i = 0; i < list.size(); i++)
-                list[i]->removeRow(row);
+                list[i]->removeRows(row, count);
         return;
     }
 
     QStandardItemModel *model = traceModelList.value(item);
-    model->removeColumn(row);
+    model->removeColumns(row, count);
 
 }
 
