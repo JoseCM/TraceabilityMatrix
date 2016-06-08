@@ -26,7 +26,7 @@ public slots:
     //void addSubRowToDocument(DocumentView *,int);
     void deleteRowOfDocument(DocumentView*, int, int count);
     void selectedDocumentChanged(int);
-
+    void removeDocument(int index);
 
 
 private:

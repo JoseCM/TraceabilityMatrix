@@ -18,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->showEdit, SIGNAL(pressed()), this, SLOT(showEditor()));
     QObject::connect(ui->showTrace, SIGNAL(pressed()), this, SLOT(showTraceability()));
     QObject::connect(editor, SIGNAL(docAdded(DocumentView*)), traceability, SLOT(addModels(DocumentView*)));
+    QObject::connect(editor, SIGNAL(removeDocument(int)), traceability, SLOT(removeDocument(int)));
 
 }
-
 void MainWindow::showEditor(){
     ui->centralWidget->layout()->removeWidget(traceability);
     traceability->hide();

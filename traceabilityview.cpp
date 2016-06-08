@@ -13,6 +13,7 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     model = nullptr;
 
     ui->tableView->setModel(model);
+    //ui->tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::);
 
     QItemDelegate* del = new CheckBoxDelegate(this);
     ui->tableView->setItemDelegate(del);
@@ -79,6 +80,16 @@ void TraceabilityView::selectedDocumentChanged(int index){
 
     this->model = model;
     ui->tableView->setModel(model);
+}
+
+void TraceabilityView::removeDocument(int index){
+
+
+
+    QStandardItem *item = otherDocsModel.item(index);
+    otherDocsModel.removeRow(index);
+
+    traceModelList.remove(static_cast<DocumentView*>(item));
 }
 
 TraceabilityView::~TraceabilityView()

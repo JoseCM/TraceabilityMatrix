@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>row-pos.png</file>
+        <file>row-pre.png</file>
+    </qresource>
+</RCC>

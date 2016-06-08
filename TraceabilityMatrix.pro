@@ -29,3 +29,12 @@ FORMS    += mainwindow.ui \
     documentview.ui \
     traceabilityview.ui \
     documenteditorview.ui
+
+DISTFILES += \
+    C:/Users/Jose Martins/Desktop/row-pos.png \
+    C:/Users/Jose Martins/Desktop/row-pre.png \
+    C:/Users/Jose Martins/Desktop/row-pos.png \
+    C:/Users/Jose Martins/Desktop/row-pre.png
+
+RESOURCES += \
+    resources.qrc

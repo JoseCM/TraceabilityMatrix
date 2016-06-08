@@ -1,6 +1,7 @@
 #include "documentview.h"
 #include "ui_documentview.h"
 #include <QDebug>
+#include <QDialogButtonBox>
 
 DocumentView::DocumentView(QString &name, QWidget *parent) :
     QWidget(parent),
@@ -47,12 +48,11 @@ void DocumentView::addColumn(){
 
 void DocumentView::addRow(){
     bool ok;
-    QString name = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
 
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
     list << new QStandardItem(QString::number(item->rowCount() + 1));
-    list << new QStandardItem(name);
+    list << new QStandardItem("");
     item->appendRow(list);
     item->sortChildren(0);
     addRowToDocument(this);
@@ -144,7 +144,7 @@ QStringList DocumentView::getHeader(){
     for(int i = 0; i< base->rowCount();i++){
         list << base->child(i)->text() + " - " +  base->child(i,1)->text();
         for(int j = 0; j< base->child(i)->rowCount();j++)
-            list << "\t\t\t" + base->child(i)->child(j)->text() + " - " +  base->child(i)->child(j,1)->text();
+            list << "\t\t\t" + base->child(i)->child(j)->text() + " " +  base->child(i)->child(j,1)->text();
     }
     return list;
 }
