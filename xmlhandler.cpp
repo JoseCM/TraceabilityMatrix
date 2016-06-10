@@ -7,13 +7,16 @@ XmlHandler::XmlHandler(QWidget *parent) :
 {
     ui->setupUi(this);
     model = new QStandardItemModel(0, 0, this);
+    tree_model = new QStandardItemModel(0,0,this);
     ui->tableView->setModel(model);
+    ui->treeView->setModel(tree_model);
 
     model->setHorizontalHeaderItem(0, new QStandardItem(QString("Coluna1")));
     model->setHorizontalHeaderItem(1, new QStandardItem(QString("Coluna2")));
     model->setVerticalHeaderItem(0, new QStandardItem(QString("Linha1")));
     model->setVerticalHeaderItem(1, new QStandardItem(QString("Linha2")));
     model->setVerticalHeaderItem(2, new QStandardItem(QString("Linha3")));
+
     model->setItem(0,0, new QStandardItem(QString("ola11")));
     model->setItem(0,1, new QStandardItem(QString("ola12")));
     model->setItem(1,0, new QStandardItem(QString("ola21")));
@@ -21,6 +24,12 @@ XmlHandler::XmlHandler(QWidget *parent) :
     model->setItem(2,0, new QStandardItem(QString("ola31")));
     model->setItem(2,1, new QStandardItem(QString("ola32")));
 
+    tree_model->setVerticalHeaderItem(0,new QStandardItem(QString("Ola1")));
+    tree_model->setItem(0,new QStandardItem(QString("Ol")));
+    tree_model->setItem(1,new QStandardItem(QString("Ola")));
+    tree_model->setVerticalHeaderItem(1,new QStandardItem(QString("Ola2")));
+    tree_model->setItem(0,new QStandardItem(QString("Ol2")));
+    tree_model->setItem(1,new QStandardItem(QString("Ola")));
 }
 
 XmlHandler::~XmlHandler()
@@ -28,6 +37,97 @@ XmlHandler::~XmlHandler()
     delete ui;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+void XmlHandler::startTree(){
+
+    readXmlToTree();
+}
+
+void XmlHandler::readXmlToTree()
+{
+    /*
+     * Example file
+     *
+     * <?xml version="1.0" encoding="UTF-8"?>
+        <tree>
+            <Sexo>
+                <Fem></Fem>
+                <Masc></Masc>
+            </Sexo>
+            <Idade>
+                <21></21>
+            </Idade>
+        </tree>
+
+     *
+     *
+     * */
+    QDomDocument doc;
+    QFile file("C:/Users/Almeida/Desktop/tree.xml"); //filename
+    if (!file.open(QIODevice::ReadOnly | QFile::Text)){
+        std::cerr<< "ERROR: file openning"<< std::endl;
+        return;
+    }
+
+    if (!doc.setContent(&file)) {
+        std::cerr << "ERROR: dom document open" << std::endl;
+        file.close();
+        return;
+    }
+
+    file.close();
+
+    QDomElement docEl = doc.documentElement();
+    if (docEl.tagName() != "tree") {
+            std::cerr << "Error: Not a bookindex file" << std::endl;
+            return ;
+    }
+
+    QDomNode child = docEl.firstChild();
+    int index = 0;
+
+    while (!child.isNull())
+    {
+        qDebug(child.toElement().tagName().toLatin1());
+        QDomNode childNode = child.toElement().firstChild();
+
+        while(!childNode.isNull())
+        {
+            qDebug(" "+childNode.toElement().tagName().toLatin1());
+            childNode = childNode.nextSibling();
+        }
+        child = child.nextSibling();
+        index++;
+    }
+}
+
+void XmlHandler::writeXmlToTree(QStandardItemModel &model)
+{
+    QStandardItem root = model.invisibleRootItem();
+    QStandardItem item = root.child();
+
+    qDebug(item.text().toLatin1());
+
+    /* ... */
+}
+
+void XmlHandler::insertFather(QString name){
+    item = new QStandardItem(name);
+    item->setEditable(false);
+}
+
+void XmlHandler::insertChildren(QString name){
+    QStandardItem *subItem = new QStandardItem( name );
+    subItem->setEditable(false);
+    item->appendRow(subItem);
+}
+
+void XmlHandler::setItem(int nRow,QStandardItemModel *model){
+    model->setItem(nRow, item);
+    nRow++;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
 bool XmlHandler::writeXml(const QString &fileName)
 {
     QFile file(fileName);
@@ -53,12 +153,13 @@ bool XmlHandler::writeXml(const QString &fileName)
         }
         xmlWriter.writeEndElement();
     }
+
     xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
     file.close();
 
     if (file.error()) {
-        std::cerr << "Error: Cannot write file "
+        std::cerr << "Error: O nico"
                   << qPrintable(fileName) << ": "
                   << qPrintable(file.errorString()) << std::endl;
         return false;
