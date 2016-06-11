@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>row-pos.png</file>
         <file>row-pre.png</file>
+        <file>white.png</file>
     </qresource>
 </RCC>

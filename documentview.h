@@ -24,7 +24,9 @@ public:
     explicit DocumentView(QString &name, QWidget *parent = 0);
     QStringList getHeader();
     QStandardItemModel* getModel() { return model; }
+    QString getName() {return name;}
     int getIndexGlobalRow(QModelIndex &index);
+    QStringList getColumnNames();
     ~DocumentView();
 
 public slots:
@@ -38,7 +40,7 @@ public slots:
     void dataChanged(QModelIndex,QModelIndex,QVector<int>);
 
 signals:
-    void addRowToDocument(DocumentView*);
+    void addRowToDocument(DocumentView*, int);
     void deleteRowOfDocument(DocumentView*, int, int);
 
 private:

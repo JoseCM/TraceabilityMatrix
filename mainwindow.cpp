@@ -28,6 +28,8 @@ void MainWindow::showEditor(){
     requirements->hide();
     ui->centralWidget->layout()->addWidget(editor);
     editor->show();
+    ui->showTrace->setChecked(false);
+    ui->showReq->setChecked(false);
 }
 
 void MainWindow::showTraceability(){
@@ -38,6 +40,9 @@ void MainWindow::showTraceability(){
     requirements->hide();
     ui->centralWidget->layout()->addWidget(traceability);
     traceability->show();
+    traceability->updateTrace(QModelIndex());
+    ui->showEdit->setChecked(false);
+    ui->showReq->setChecked(false);
 }
 
 void MainWindow::showRequirements(){
@@ -47,6 +52,8 @@ void MainWindow::showRequirements(){
     editor->hide();
     ui->centralWidget->layout()->addWidget(requirements);
     requirements->show();
+    ui->showEdit->setChecked(false);
+    ui->showTrace->setChecked(false);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     documentview.cpp \
     checkboxdelegate.cpp \
     traceabilityview.cpp \
-    documenteditorview.cpp
+    documenteditorview.cpp \
+    booleanwidget.cpp
 
 HEADERS  += mainwindow.h \
     documentview.h \
     checkboxdelegate.h \
     traceabilityview.h \
-    documenteditorview.h
+    documenteditorview.h \
+    booleanwidget.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \

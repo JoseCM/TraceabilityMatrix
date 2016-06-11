@@ -12,6 +12,9 @@ DocumentView::DocumentView(QString &name, QWidget *parent) :
     labels << "ID" << "Name";
     model->setHorizontalHeaderLabels(labels);
     ui->tableView->setModel(model);
+    ui->tableView->header()->setSectionsClickable(true);
+    ui->tableView->expandAll();
+
 
     QObject::connect(ui->addRowButton, SIGNAL(pressed()), this, SLOT(addRow()));
     QObject::connect(ui->addColumnButton, SIGNAL(pressed()), this, SLOT(addColumn()));
@@ -35,8 +38,9 @@ void DocumentView::addColumn(){
     QList<QStandardItem*> list;
 
     if(item->rowCount() > 0){
-        for(int i = 0 ; i < item->rowCount(); i++)
+        for(int i = 0 ; i < item->rowCount(); i++){
          item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
+        }
         list << new QStandardItem("");
         item->appendColumn(list);
     }
@@ -53,15 +57,22 @@ void DocumentView::addRow(){
     QList<QStandardItem*> list;
     list << new QStandardItem(QString::number(item->rowCount() + 1));
     list << new QStandardItem("");
+    for(int i = 2; i < model->columnCount(); i++)
+        list << new QStandardItem("");
+    list.at(0)->setEditable(false);
     item->appendRow(list);
     item->sortChildren(0);
-    addRowToDocument(this);
+    addRowToDocument(this, item->rowCount() - 1);
+     ui->tableView->selectionModel()->selectedColumns(0);
 }
 
 void DocumentView::addSubRow(){    
 
     if(ui->tableView->selectionModel()->selectedRows().isEmpty())
         return;
+
+    if(ui->tableView->selectionModel()->currentIndex().parent() != QModelIndex())
+            return;
 
     int row = ui->tableView->selectionModel()->selectedRows().first().row();
 
@@ -72,9 +83,11 @@ void DocumentView::addSubRow(){
     for(int i = 1; i < model->columnCount(); i++)
         list << new QStandardItem("");
 
+    list.at(0)->setEditable(false);
     item->appendRow(list);
     item->sortChildren(0);
-    addRowToDocument(this);
+    QModelIndex temp = item->index();
+    addRowToDocument(this, getIndexGlobalRow(temp) + item->rowCount());
     ui->tableView->expandAll();
 }
 
@@ -91,8 +104,6 @@ void DocumentView::deleteRow(){
 
     model->removeRow(index.row(), index.parent());
     deleteRowOfDocument(this, row, count + 1);
-    qDebug() << "Row: " << row;
-    qDebug() << "Count: " << count;
 }
 
 int DocumentView::getIndexGlobalRow(QModelIndex &index){
@@ -125,7 +136,6 @@ void DocumentView::deleteColumn(){
     model->removeColumn(index.column());
 }
 
-//ISTO LEAKA
 void DocumentView::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::RightButton)
@@ -142,15 +152,27 @@ QStringList DocumentView::getHeader(){
     QStandardItem *base = model->invisibleRootItem();
 
     for(int i = 0; i< base->rowCount();i++){
-        list << base->child(i)->text() + " - " +  base->child(i,1)->text();
+        list << base->child(i)->text() + ". " +  base->child(i,1)->text();
         for(int j = 0; j< base->child(i)->rowCount();j++)
-            list << "\t\t\t" + base->child(i)->child(j)->text() + " " +  base->child(i)->child(j,1)->text();
+            list << "\t\t\t" + base->child(i)->child(j)->text() + ". " +  base->child(i)->child(j,1)->text();
     }
     return list;
 }
 
 void DocumentView::dataChanged(QModelIndex,QModelIndex,QVector<int>){
-     addRowToDocument(this);
+     addRowToDocument(this, -1);
+}
+
+QStringList DocumentView::getColumnNames(){
+
+    QStringList columns;
+    QAbstractItemModel *model = ui->tableView->model();
+
+    for(int i = 0; i < model->columnCount(); i++)
+        columns << model->headerData(i,Qt::Orientation::Horizontal).toString();
+
+    return columns;
+
 }
 
 

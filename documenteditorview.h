@@ -28,9 +28,12 @@ signals:
     void docAdded(DocumentView *);
     void removeDocument(int index);
 
+
 public slots:
     void addNewTab();
     void deleteTab();
+    void loadTab();
+    void saveTab();
 
 private:
     Ui::DocumentEditorView *ui;
