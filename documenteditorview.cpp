@@ -97,65 +97,62 @@ void DocumentEditorView::saveTab(){
 
 void DocumentEditorView::loadTab(){
 
-   QString fileName =  QFileDialog::getOpenFileName(this);
-   qDebug() << fileName;
-
    QDomDocument doc;
-   QFile file(fileName); //filename
-   if (!file.open(QIODevice::ReadOnly | QFile::Text)){
-       std::cerr<< "ERROR: file openning"<< std::endl;
-       return;
-   }
+    QFile file("C:/Users/Almeida/Desktop/test.xml"); //filename
+    if (!file.open(QIODevice::ReadOnly | QFile::Text)){
+        std::cerr<< "ERROR: file openning"<< std::endl;
+        return;
+    }
 
-   QString str;
-   int line;
-   if (!doc.setContent(&file, &str, &line)) {
-       std::cerr << "ERROR: dom document open: " << str.toStdString() << " " << line << std::endl;
-       file.close();
-       return;
-   }
+    if (!doc.setContent(&file)) {
+        std::cerr << "ERROR: dom document open" << std::endl;
+        file.close();
+        return;
+    }
 
-   file.close();
+    file.close();
 
-   QDomElement docEl = doc.documentElement();
+    QDomElement docEl = doc.documentElement();
+    if (docEl.tagName() != "document") {
+            std::cerr << "Error: Not a bookindex file" << std::endl;
+            return ;
+    }
 
-//   if (docEl.tagName() != "tree") {
-//           std::cerr << "Error: Not a bookindex file" << std::endl;
-//           return ;
-//   }
+    //Document NAME - HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    qDebug(docEl.toElement().firstChild().nodeValue().toLatin1());
 
-   QString name = docEl.tagName();
-   DocumentView *newdoc = new DocumentView(name, this);
-   ui->tabWidget->addTab(newdoc, name);
-   documentlist.push_back(newdoc);
+    QDomNode child = docEl.firstChild();
 
-   QStandardItem *root = newdoc->getModel()->invisibleRootItem();
+    while (!child.isNull())
+    {
+        //row element
+        qDebug(" "+child.toElement().tagName().toLatin1());
 
-   QDomNode child = docEl.firstChild();
-   int index = 0;
+        QDomNode childNode = child.toElement().firstChild();
 
-   while (!child.isNull())
-   {
-       QStandardItem *rowitem = new QStandardItem(child.toElement().tagName().remove(0,1));
-       root->appendRow(rowitem);
-       QDomNode childNode = child.toElement().firstChild();
+        while(!childNode.isNull())
+        {
+            //childs ID , name, doc2, doc3 and node value respectively
+            qDebug("  "+childNode.toElement().tagName().toLatin1()+ ":" + childNode.toElement().firstChild().nodeValue().toLatin1());
 
-       while(!childNode.isNull())
-       {
-           rowitem->appendRow(new QStandardItem(childNode.toElement().tagName().remove(0,1)));
+            if(childNode.toElement().tagName() == "subrow")
+            {
+                //subrow
+                QDomNode childNodeSub = childNode.toElement().firstChild();
 
-           while(!childNode.isNull())
+                //subrow childs ID, name, ...
+                while(!childNodeSub.isNull())
+                {
+                    qDebug("   "+childNodeSub.toElement().tagName().toLatin1()+":"+childNodeSub.toElement().firstChild().nodeValue().toLatin1());
 
+                    childNodeSub = childNodeSub.nextSibling();
+                }
+            }
 
-           childNode = childNode.nextSibling();
-       }
-       child = child.nextSibling();
-       index++;
-   }
-
-
-   docAdded(newdoc);
-
+            childNode = childNode.nextSibling();
+        }
+        child = child.nextSibling();
+    }
 }
 
 void DocumentEditorView::addNewTab(){
