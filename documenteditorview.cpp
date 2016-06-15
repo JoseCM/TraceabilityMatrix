@@ -59,6 +59,8 @@ void DocumentEditorView::saveTab(){
             QDomElement subsub =  doc.createElement(header.at(j));
             if(item)
                 subsub.appendChild(doc.createTextNode(item->text()));
+            else
+                subsub.appendChild(doc.createTextNode(""));
             subel.appendChild(subsub);
        }
 
@@ -76,6 +78,8 @@ void DocumentEditorView::saveTab(){
                 QDomElement subsub =  doc.createElement(header.at(k));
                 if(subitem)
                     subsub.appendChild(doc.createTextNode(subitem->text()));
+                else
+                    subsub.appendChild(doc.createTextNode(""));
                 subsubel.appendChild(subsub);
            }
       }

@@ -68,9 +68,9 @@ void TraceabilityView::updateTrace(QModelIndex index){
                 if(!item)
                     continue;
                 if(item->data(Qt::EditRole).toInt() == 1)
-                   preReqModel.insertRow(preReqModel.rowCount(), new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j)));
+                   preReqModel.insertRow(preReqModel.rowCount(), new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed()));
                 else if(item->data(Qt::EditRole).toInt() == 2)
-                   postReqModel.insertRow(postReqModel.rowCount(),new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j)));
+                   postReqModel.insertRow(postReqModel.rowCount(),new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed()));
             }
     }
 
