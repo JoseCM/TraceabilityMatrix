@@ -36,6 +36,9 @@ public slots:
     void showRequirements();
     void mousePressEvent(QMouseEvent *event);
 
+private slots:
+    void on_actionNew_Project_triggered();
+
 private:
     Ui::MainWindow *ui;
     DocumentEditorView *editor;

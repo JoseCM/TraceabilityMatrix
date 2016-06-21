@@ -27,7 +27,6 @@ void CheckBoxDelegate::setModelData(QWidget * editor, QAbstractItemModel * model
    BooleanWidget *ch = static_cast<BooleanWidget*>(editor);
    model->setData(index, ch->getState());
 
-
 }
 
 void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const{

@@ -31,10 +31,13 @@ public slots:
     void updateTrace(QModelIndex index);
     void tabChanged(int i);
 
+    void itemSelected(const QModelIndex & current);
+
 private:
     Ui::TraceabilityView *ui;  
     QStandardItemModel *model;
     QHash<DocumentView*, QStandardItemModel*> traceModelList;
+    QList<QStandardItemModel*> noteModel;
     DocumentView *requirements;
     QStandardItemModel otherDocsModel;
 
@@ -44,6 +47,7 @@ private:
 
     CheckBoxDelegate *del;
 
+    QStandardItem *previous;
 };
 
 #endif // TRACEABILITYVIEW_H

@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QItemSelectionModel>
 #include <QItemSelection>
+#include <QTreeView>
 
 namespace Ui {
 class DocumentView;
@@ -24,18 +25,22 @@ public:
     explicit DocumentView(QString &name, QWidget *parent = 0);
     QStringList getHeader();
     QStandardItemModel* getModel() { return model; }
+    QTreeView* getTreeView() ;
     QString getName() {return name;}
     int getIndexGlobalRow(QModelIndex &index);
     QStringList getColumnNames();
+    void expand();
+    void addSubRow(int);
     ~DocumentView();
 
 public slots:
     void addColumn();
+    void addEmptyColumn();
     void addRow();
     void deleteColumn();
     void deleteRow();
     void mousePressEvent(QMouseEvent *event);
-    void addSubRow();
+    void addSubRowPressed();
 
     void dataChanged(QModelIndex,QModelIndex,QVector<int>);
 

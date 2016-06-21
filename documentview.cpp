@@ -20,7 +20,7 @@ DocumentView::DocumentView(QString &name, QWidget *parent) :
     QObject::connect(ui->addColumnButton, SIGNAL(pressed()), this, SLOT(addColumn()));
     QObject::connect(ui->delRowButtom, SIGNAL(pressed()), this, SLOT(deleteRow()));
     QObject::connect(ui->delColButtom, SIGNAL(pressed()), this, SLOT(deleteColumn()));
-    QObject::connect(ui->subButton, SIGNAL(pressed()), this, SLOT(addSubRow()));
+    QObject::connect(ui->subButton, SIGNAL(pressed()), this, SLOT(addSubRowPressed()));
 
     QObject::connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
 }
@@ -28,6 +28,23 @@ DocumentView::DocumentView(QString &name, QWidget *parent) :
 DocumentView::~DocumentView()
 {
     delete ui;
+}
+
+QTreeView* DocumentView::getTreeView() { return ui->tableView; }
+
+void DocumentView::addEmptyColumn(){
+
+    QStandardItem *item = model->invisibleRootItem();
+    QList<QStandardItem*> list;
+
+    if(item->rowCount() > 0){
+        for(int i = 0 ; i < item->rowCount(); i++){
+         item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
+        }
+        list << new QStandardItem("");
+        item->appendColumn(list);
+    }
+
 }
 
 void DocumentView::addColumn(){
@@ -39,7 +56,7 @@ void DocumentView::addColumn(){
 
     if(item->rowCount() > 0){
         for(int i = 0 ; i < item->rowCount(); i++){
-         item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
+            item->child(i)->insertColumns(item->child(i)->columnCount(), 1);
         }
         list << new QStandardItem("");
         item->appendColumn(list);
@@ -63,10 +80,10 @@ void DocumentView::addRow(){
     item->appendRow(list);
     item->sortChildren(0);
     addRowToDocument(this, item->rowCount() - 1);
-     ui->tableView->selectionModel()->selectedColumns(0);
+    ui->tableView->selectionModel()->selectedColumns(0);
 }
 
-void DocumentView::addSubRow(){    
+void DocumentView::addSubRowPressed(){
 
     if(ui->tableView->selectionModel()->selectedRows().isEmpty())
         return;
@@ -75,6 +92,11 @@ void DocumentView::addSubRow(){
             return;
 
     int row = ui->tableView->selectionModel()->selectedRows().first().row();
+
+    addSubRow(row);
+}
+
+void DocumentView::addSubRow(int row){
 
     QStandardItem *item = model->invisibleRootItem()->child(row,0);
     QList<QStandardItem*> list;
@@ -91,6 +113,10 @@ void DocumentView::addSubRow(){
     ui->tableView->expandAll();
 }
 
+
+void DocumentView::expand(){
+    ui->tableView->expandAll();
+}
 
 void DocumentView::deleteRow(){
 
@@ -112,6 +138,7 @@ int DocumentView::getIndexGlobalRow(QModelIndex &index){
 
    QStandardItem *item = model->itemFromIndex(index);
 
+   qDebug() << "ROOT: " <<  model->invisibleRootItem()->rowCount() << " " << model->invisibleRootItem()->columnCount();
    if(index.parent() == QModelIndex()){
       qDebug() << "top";
        for(int i = 0; i < index.row(); i++){

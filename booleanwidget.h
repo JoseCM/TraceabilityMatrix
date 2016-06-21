@@ -37,7 +37,10 @@ public:
 
     static QImage *backicon;
     static QImage *foricon;
+    static QImage *backiconsel;
+    static QImage *foriconsel;
     static QImage *noneicon;
+    static QImage *noneiconsel;
 
     BooleanWidget(QWidget * parent = 0);
 

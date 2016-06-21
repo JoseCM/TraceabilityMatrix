@@ -1,24 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QBrush>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    editor = new DocumentEditorView(this);
-    editor->hide();
-    QString *str = new QString("Requirements Document");
-    requirements = new DocumentView(*str, this);
-    requirements->hide();
-    traceability = new TraceabilityView(requirements, this);
-    ui->centralWidget->layout()->addWidget(traceability);
+    ui->frame->hide();
 
-    QObject::connect(ui->showReq, SIGNAL(pressed()), this, SLOT(showRequirements()));
-    QObject::connect(ui->showEdit, SIGNAL(pressed()), this, SLOT(showEditor()));
-    QObject::connect(ui->showTrace, SIGNAL(pressed()), this, SLOT(showTraceability()));
-    QObject::connect(editor, SIGNAL(docAdded(DocumentView*)), traceability, SLOT(addModels(DocumentView*)));
-    QObject::connect(editor, SIGNAL(removeDocument(int)), traceability, SLOT(removeDocument(int)));
 
 }
 void MainWindow::showEditor(){
@@ -70,4 +60,23 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_actionNew_Project_triggered()
+{
+    editor = new DocumentEditorView(this);
+    editor->hide();
+    QString *str = new QString("Requirements Document");
+    requirements = new DocumentView(*str, this);
+    requirements->hide();
+    traceability = new TraceabilityView(requirements, this);
+    ui->centralWidget->layout()->addWidget(traceability);
+
+    QObject::connect(ui->showReq, SIGNAL(pressed()), this, SLOT(showRequirements()));
+    QObject::connect(ui->showEdit, SIGNAL(pressed()), this, SLOT(showEditor()));
+    QObject::connect(ui->showTrace, SIGNAL(pressed()), this, SLOT(showTraceability()));
+    QObject::connect(editor, SIGNAL(docAdded(DocumentView*)), traceability, SLOT(addModels(DocumentView*)));
+    QObject::connect(editor, SIGNAL(removeDocument(int)), traceability, SLOT(removeDocument(int)));
+
+    ui->frame->show();
 }

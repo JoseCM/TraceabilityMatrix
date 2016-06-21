@@ -20,14 +20,16 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     ui->tableView->setItemDelegate(del);
 
 
+    ui->noteEdit->setReadOnly(true);
+
     ui->tableView->horizontalHeader()->setVisible(true);
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
-    ui->tableView->setEditTriggers(QAbstractItemView::AnyKeyPressed);
+    //ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    //ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    //ui->tableView->setEditTriggers(QAbstractItemView::AnyKeyPressed);
     ui->tableView->horizontalHeader()->setSectionsClickable(false);
     ui->tableView->verticalHeader()->setSectionsClickable(false);
     ui->tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
-    ui->tableView->selectAll();
+    //ui->tableView->selectAll();
 
     ui->comboBox->setModel(&otherDocsModel);
     QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectedDocumentChanged(int)));
@@ -39,13 +41,33 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     QObject::connect(ui->reqList, SIGNAL(clicked(QModelIndex)), this, SLOT(updateTrace(QModelIndex)));
     QObject::connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
+    QObject::connect(ui->tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(itemSelected(QModelIndex)));
+    previous = nullptr;
 }
+
+void TraceabilityView::itemSelected(const QModelIndex &current){
+    qDebug() << "Select: " << current.row() << " " << current.column();
+
+    if(previous != nullptr){
+        previous->setAccessibleText(ui->noteEdit->toPlainText());
+    }
+
+    previous = model->itemFromIndex(current);
+
+    ui->noteEdit->setReadOnly(false);
+    ui->noteEdit->clear();
+    ui->noteEdit->setPlainText(model->itemFromIndex(current)->accessibleText());
+
+
+}
+
 
 void TraceabilityView::tabChanged(int i){
 
     if(i == 1)
         updateTrace(QModelIndex());
 
+    ui->noteEdit->setReadOnly(true);
 }
 
 void TraceabilityView::updateTrace(QModelIndex index){
@@ -67,10 +89,16 @@ void TraceabilityView::updateTrace(QModelIndex index){
                 QStandardItem* item = list.at(i)->item(row, j);
                 if(!item)
                     continue;
-                if(item->data(Qt::EditRole).toInt() == 1)
-                   preReqModel.insertRow(preReqModel.rowCount(), new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed()));
-                else if(item->data(Qt::EditRole).toInt() == 2)
-                   postReqModel.insertRow(postReqModel.rowCount(),new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed()));
+                if(item->data(Qt::EditRole).toInt() == 1){
+                   QStandardItem *subitem = new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed());
+                   subitem->setToolTip(item->accessibleText());
+                   preReqModel.insertRow(preReqModel.rowCount(), subitem);
+                }
+                else if(item->data(Qt::EditRole).toInt() == 2){
+                   QStandardItem *subitem = new QStandardItem(traceModelList.keys().at(i)->text() + " - " + traceModelList.keys().at(i)->getHeader().at(j).trimmed()) ;
+                   subitem->setToolTip(item->accessibleText());
+                   postReqModel.insertRow(postReqModel.rowCount(), subitem);
+                }
             }
     }
 
@@ -82,6 +110,7 @@ void TraceabilityView::addModels(DocumentView *item){
     QStandardItemModel *model = new QStandardItemModel();
     model->setVerticalHeaderLabels(requirements->getHeader());
     traceModelList.insert(item, model);
+    noteModel.append(new QStandardItemModel());
     QObject::connect(item, SIGNAL(addRowToDocument(DocumentView*, int)), this, SLOT(addRowToDocument(DocumentView*, int)));
     QObject::connect(item, SIGNAL(deleteRowOfDocument(DocumentView*,int, int)), this, SLOT(deleteRowOfDocument(DocumentView*,int, int)));
     if(this->model == nullptr){
@@ -97,8 +126,10 @@ void TraceabilityView::addRowToDocument(DocumentView *item, int row){
     if(item == requirements){
         QList<QStandardItemModel*> list = traceModelList.values();
         for(int i = 0; i < list.size(); i++){
-                if(row >= 0)
+                if(row >= 0){
                     list[i]->insertRow(row);
+                    noteModel[i]->insertRow(row, new QStandardItem());
+                }
                 list[i]->setVerticalHeaderLabels(requirements->getHeader());
         }
           reqListModel.clear();
@@ -111,8 +142,10 @@ void TraceabilityView::addRowToDocument(DocumentView *item, int row){
     }
 
     QStandardItemModel *model = traceModelList.value(item);
-    if(row >= 0)
+    if(row >= 0){
         model->insertColumn(row);
+     //   noteModel.insertRow(noteModel.rowCount(), new QStandardItem());
+    }
     model->setHorizontalHeaderLabels(item->getHeader());
 }
 

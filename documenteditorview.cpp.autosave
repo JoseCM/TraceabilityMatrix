@@ -208,7 +208,7 @@ void DocumentEditorView::loadTab(){
 void DocumentEditorView::addNewTab(){
 
     bool ok;
-    QString text = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Doc", &ok);
+    QString text = QInputDialog::getText(this, tr("Document Name"), tr("Document Name:"), QLineEdit::Normal, "Trace ", &ok);
 
     if (ok && !text.isEmpty()){
         DocumentView *newdoc = new DocumentView(text, this);

@@ -3,5 +3,10 @@
         <file>row-pos.png</file>
         <file>row-pre.png</file>
         <file>white.png</file>
+        <file>icon.png</file>
+        <file>logo.png</file>
+        <file>logo1.png</file>
+        <file>row-pos-sel.png</file>
+        <file>row-pre-sel.png</file>
     </qresource>
 </RCC>
