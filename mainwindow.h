@@ -30,6 +30,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void closeEvent ( QCloseEvent * event );
+
 public slots:
     void showEditor();
     void showTraceability();
@@ -38,12 +40,19 @@ public slots:
 
 private slots:
     void on_actionNew_Project_triggered();
+    void on_actionOpen_Project_triggered();
+    void on_actionSave_Project_triggered();
+
+    void on_actionClose_Project_triggered();
 
 private:
     Ui::MainWindow *ui;
     DocumentEditorView *editor;
     TraceabilityView *traceability;
     DocumentView *requirements;
+    QDir current_project_directory;
+    QString current_project_name;
+    bool project_open = false;
 };
 
 #endif // MAINWINDOW_H

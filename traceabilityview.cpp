@@ -2,6 +2,8 @@
 #include "ui_traceabilityview.h"
 #include <QDebug>
 #include <QHeaderView>
+#include <QDomDocument>
+#include <QDir>
 
 TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     QWidget(parent),
@@ -43,6 +45,64 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
 
     QObject::connect(ui->tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(itemSelected(QModelIndex)));
     previous = nullptr;
+
+}
+
+ QStandardItemModel* TraceabilityView::loadMatrix(QString name){
+
+    QFile file(name);
+
+    QStandardItemModel* model = new QStandardItemModel();
+
+    if (file.open(QIODevice::ReadOnly))
+    {
+       QDataStream stream(&file);
+        qint32 n, m;
+        stream >> n >> m;
+        model->setRowCount(n);
+        model->setColumnCount(m);
+
+        for (int i = 0; i < n ; ++i) {
+               for (int j = 0; j < m; j++) {
+                   QStandardItem *item = new QStandardItem;
+                   item->read(stream);
+                   model->setItem(i, j, item);
+               }
+           }
+
+     file.close();
+    }
+
+    //ui->tableView->setModel(model);
+    return model;
+     qDebug() << "Matrix loaded: " << name;
+}
+
+const void TraceabilityView::saveMatrix(QString name, QStandardItemModel *model){
+
+    QFile file(name);
+
+     if (file.open(QIODevice::WriteOnly))
+     {
+         QDataStream stream(&file);
+         qint32 n = model->rowCount();
+         qint32 m = model->columnCount();
+         stream << n << m;
+
+         for (int i=0; i<n; ++i)
+         {
+          for (int j=0; j<m; j++)
+            {
+              if(model->item(i,j))
+                model->item(i,j)->write(stream);
+              else
+                (new QStandardItem())->write(stream);
+            }
+          }
+        file.close();
+      }
+
+    qDebug() << "Matrix saved: " << name;
 }
 
 void TraceabilityView::itemSelected(const QModelIndex &current){
@@ -104,13 +164,14 @@ void TraceabilityView::updateTrace(QModelIndex index){
 
 }
 
-void TraceabilityView::addModels(DocumentView *item){
+void TraceabilityView::addModels(DocumentView *item, QStandardItemModel *model){
 
     otherDocsModel.setItem(otherDocsModel.rowCount(), item);
-    QStandardItemModel *model = new QStandardItemModel();
+    if(model == nullptr)
+        model = new QStandardItemModel();
     model->setVerticalHeaderLabels(requirements->getHeader());
     traceModelList.insert(item, model);
-    noteModel.append(new QStandardItemModel());
+    //noteModel.append(new QStandardItemModel());
     QObject::connect(item, SIGNAL(addRowToDocument(DocumentView*, int)), this, SLOT(addRowToDocument(DocumentView*, int)));
     QObject::connect(item, SIGNAL(deleteRowOfDocument(DocumentView*,int, int)), this, SLOT(deleteRowOfDocument(DocumentView*,int, int)));
     if(this->model == nullptr){
@@ -128,7 +189,7 @@ void TraceabilityView::addRowToDocument(DocumentView *item, int row){
         for(int i = 0; i < list.size(); i++){
                 if(row >= 0){
                     list[i]->insertRow(row);
-                    noteModel[i]->insertRow(row, new QStandardItem());
+                    //noteModel[i]->insertRow(row, new QStandardItem());
                 }
                 list[i]->setVerticalHeaderLabels(requirements->getHeader());
         }
@@ -147,6 +208,15 @@ void TraceabilityView::addRowToDocument(DocumentView *item, int row){
      //   noteModel.insertRow(noteModel.rowCount(), new QStandardItem());
     }
     model->setHorizontalHeaderLabels(item->getHeader());
+}
+
+void TraceabilityView::updateReqListModel(){
+    reqListModel.clear();
+    for(QString str : requirements->getHeader()){
+        QStandardItem *tempitem = new QStandardItem(str.trimmed());
+        tempitem->setEditable(false);
+        reqListModel.insertRow(reqListModel.rowCount(), tempitem);
+    }
 }
 
 void TraceabilityView::deleteRowOfDocument(DocumentView *item, int row, int count){
@@ -179,6 +249,11 @@ void TraceabilityView::removeDocument(int index){
     otherDocsModel.removeRow(index);
 
     traceModelList.remove(static_cast<DocumentView*>(item));
+}
+
+void TraceabilityView::setMatrixModel(QStandardItemModel *model){
+    this->model = model;
+    ui->tableView->setModel(model);
 }
 
 TraceabilityView::~TraceabilityView()

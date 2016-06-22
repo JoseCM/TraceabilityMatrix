@@ -22,7 +22,7 @@ class DocumentView : public QWidget, public QStandardItem
     QMessageBox* msgBox;
 
 public:
-    explicit DocumentView(QString &name, QWidget *parent = 0);
+    explicit DocumentView(QString name, QWidget *parent = 0);
     QStringList getHeader();
     QStandardItemModel* getModel() { return model; }
     QTreeView* getTreeView() ;
@@ -31,6 +31,8 @@ public:
     QStringList getColumnNames();
     void expand();
     void addSubRow(int);
+    void saveDocument(QString name);
+    static DocumentView* loadDocument(QString name);
     ~DocumentView();
 
 public slots:

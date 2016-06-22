@@ -21,8 +21,11 @@ public:
     explicit TraceabilityView(DocumentView *requirements, QWidget *parent = 0);
     ~TraceabilityView();
 
+    const static void saveMatrix(QString name, QStandardItemModel*);
+    static QStandardItemModel *loadMatrix(QString name);
+
 public slots:
-    void addModels(DocumentView *);
+    void addModels(DocumentView *, QStandardItemModel *model = nullptr);
     void addRowToDocument(DocumentView *, int);
     //void addSubRowToDocument(DocumentView *,int);
     void deleteRowOfDocument(DocumentView*, int, int count);
@@ -30,14 +33,16 @@ public slots:
     void removeDocument(int index);
     void updateTrace(QModelIndex index);
     void tabChanged(int i);
-
+    void updateReqListModel();
     void itemSelected(const QModelIndex & current);
+    void setMatrixModel(QStandardItemModel *model);
+
+    QHash<DocumentView*, QStandardItemModel*>* getTraceModelList() { return &traceModelList; }
 
 private:
     Ui::TraceabilityView *ui;  
     QStandardItemModel *model;
     QHash<DocumentView*, QStandardItemModel*> traceModelList;
-    QList<QStandardItemModel*> noteModel;
     DocumentView *requirements;
     QStandardItemModel otherDocsModel;
 

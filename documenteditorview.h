@@ -22,11 +22,13 @@ class DocumentEditorView : public QWidget
 
 public:
     explicit DocumentEditorView(QWidget *parent = 0);
+    void addLoadedTab(DocumentView*);
     ~DocumentEditorView();
 
 signals:
     void docAdded(DocumentView *);
     void removeDocument(int index);
+
 
 
 public slots:

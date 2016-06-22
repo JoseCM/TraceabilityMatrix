@@ -8,5 +8,8 @@
         <file>logo1.png</file>
         <file>row-pos-sel.png</file>
         <file>row-pre-sel.png</file>
+        <file>logo2.png</file>
+        <file>logo3.png</file>
+        <file>icon2.png</file>
     </qresource>
 </RCC>
