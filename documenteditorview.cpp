@@ -21,7 +21,6 @@ DocumentEditorView::DocumentEditorView(QWidget *parent) :
     QObject::connect(ui->addDocButton, SIGNAL(pressed()), this, SLOT(addNewTab()));
     QObject::connect(ui->deleteButton, SIGNAL(pressed()), this, SLOT(deleteTab()));
     QObject::connect(ui->loadDocButton, SIGNAL(pressed()), this, SLOT(loadTab()));
-    QObject::connect(ui->saveButton, SIGNAL(pressed()), this, SLOT(saveTab()));
 }
 
 DocumentEditorView::~DocumentEditorView()

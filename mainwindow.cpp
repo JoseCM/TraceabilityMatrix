@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    project_open = false;
     ui->setupUi(this);
     ui->frame->hide();
 }
@@ -61,19 +62,19 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::closeEvent ( QCloseEvent * event ){
     if(project_open){
-       QMessageBox::StandardButton button =  QMessageBox::question(this, "Quit", "Are you sure you want to quit? \nPress Save to save before quitting...",
-                                                       QMessageBox::Ok | QMessageBox::Save | QMessageBox::Cancel);
-       if(button == QMessageBox::Save){
+       QMessageBox::StandardButton button =  QMessageBox::question(this, "Quit", "Save befor quitting?",
+                                                       QMessageBox::Yes |  QMessageBox::No |  QMessageBox::Cancel );
+       if(button == QMessageBox::Yes){
            on_actionSave_Project_triggered();
            event->accept();
-       } else if (button == QMessageBox::Ok){
+       } else if (button == QMessageBox::No){
            event->accept();
        } else {
            event->ignore();
        }
     } else {
-        QMessageBox::StandardButton button =  QMessageBox::question(this, "Quit", "Are you sure you want to quit?", QMessageBox::Ok | QMessageBox::Cancel);
-        if (button == QMessageBox::Ok){
+        QMessageBox::StandardButton button =  QMessageBox::question(this, "Quit", "Are you sure you want to quit?", QMessageBox::Yes |  QMessageBox::No);
+        if (button == QMessageBox::Yes){
             event->accept();
         } else {
             event->ignore();
@@ -90,6 +91,9 @@ void MainWindow::on_actionNew_Project_triggered()
 {
     if(project_open)
         on_actionClose_Project_triggered();
+
+    if(project_open)
+        return;
 
 
     QString tempdir = QFileDialog::getExistingDirectory(this, QString("Choose Project Directory"));
@@ -112,14 +116,18 @@ void MainWindow::on_actionNew_Project_triggered()
     QObject::connect(editor, SIGNAL(docAdded(DocumentView*)), traceability, SLOT(addModels(DocumentView*)));
     QObject::connect(editor, SIGNAL(removeDocument(int)), traceability, SLOT(removeDocument(int)));
 
-    on_actionSave_Project_triggered();
     project_open = true;
-    ui->label_2->hide();
+    saveProject();
+    ui->frame_2->hide();
     ui->frame->show();
 }
 
-void MainWindow::on_actionSave_Project_triggered()
-{
+void MainWindow::saveProject(){
+
+    if(!project_open){
+        return;
+    }
+
     const QString pathName =  current_project_directory.dirName();
     QString fileName = current_project_directory.filePath(current_project_name + ".trx");
 
@@ -159,12 +167,29 @@ void MainWindow::on_actionSave_Project_triggered()
 
      file.write(doc.toByteArray());
      file.close();
+
+
+}
+
+void MainWindow::on_actionSave_Project_triggered()
+{
+    if(!project_open){
+        QMessageBox::warning(this, "No project", "No project open!");
+        return;
+    }
+
+    saveProject();
+
+    QMessageBox::information(this, "Project saved", "Project saved!");
 }
 
 void MainWindow::on_actionOpen_Project_triggered()
 {
     if(project_open)
         on_actionClose_Project_triggered();
+
+    if(project_open)
+        return;
 
     editor = new DocumentEditorView(this);
     editor->hide();
@@ -237,7 +262,7 @@ void MainWindow::on_actionOpen_Project_triggered()
 
     traceability->updateReqListModel();
     project_open = true;
-     ui->label_2->hide();
+    ui->frame_2->hide();
     ui->frame->show();
 }
 
@@ -245,9 +270,16 @@ void MainWindow::on_actionOpen_Project_triggered()
 
 void MainWindow::on_actionClose_Project_triggered()
 {
-    QMessageBox::StandardButton button =  QMessageBox::question(this, "Close Project", "Save curent project?", QMessageBox::Ok |QMessageBox::Cancel);
+    if(!project_open){
+        QMessageBox::warning(this, "No project", "No project open!");
+        return;
+    }
+
+    QMessageBox::StandardButton button =  QMessageBox::question(this, "Close Project", "Save curent project before closing?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
     if (button == QMessageBox::Ok){
         on_actionSave_Project_triggered();
+    } else if (button == QMessageBox::Cancel){
+        return;
     }
 
     project_open = false;
@@ -257,6 +289,16 @@ void MainWindow::on_actionClose_Project_triggered()
     delete editor;
     delete requirements;
     delete traceability;
-     ui->label_2->show();
+    ui->frame_2->show();
     ui->frame->hide();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    on_actionNew_Project_triggered();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    on_actionOpen_Project_triggered();
 }

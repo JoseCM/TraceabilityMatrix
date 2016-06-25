@@ -27,13 +27,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="addColumnButton">
-       <property name="text">
-        <string>Add Column</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="addRowButton">
        <property name="text">
         <string>Add Row</string>
@@ -48,16 +41,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="delColButtom">
+      <widget class="QPushButton" name="subButton">
        <property name="text">
-        <string>Delete Column</string>
+        <string>Add Sub</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="subButton">
+      <widget class="QPushButton" name="addColumnButton">
        <property name="text">
-        <string>Add Sub</string>
+        <string>Add Column</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="delColButtom">
+       <property name="text">
+        <string>Delete Column</string>
        </property>
       </widget>
      </item>

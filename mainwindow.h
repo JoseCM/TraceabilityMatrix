@@ -31,6 +31,7 @@ public:
     ~MainWindow();
 
     void closeEvent ( QCloseEvent * event );
+    void saveProject();
 
 public slots:
     void showEditor();
@@ -45,6 +46,10 @@ private slots:
 
     void on_actionClose_Project_triggered();
 
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     DocumentEditorView *editor;
@@ -52,7 +57,7 @@ private:
     DocumentView *requirements;
     QDir current_project_directory;
     QString current_project_name;
-    bool project_open = false;
+    bool project_open;
 };
 
 #endif // MAINWINDOW_H

@@ -70,17 +70,20 @@ void DocumentView::addColumn(){
 }
 
 void DocumentView::addRow(){
+
     bool ok;
+
+    static int rowcount = 1;
 
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
-    list << new QStandardItem(QString::number(item->rowCount() + 1));
+    list << new QStandardItem(QString::number(rowcount));
+    rowcount++;
     list << new QStandardItem("");
     for(int i = 2; i < model->columnCount(); i++)
         list << new QStandardItem("");
     list.at(0)->setEditable(false);
     item->appendRow(list);
-    item->sortChildren(0);
     addRowToDocument(this, item->rowCount() - 1);
     ui->tableView->selectionModel()->selectedColumns(0);
 }
@@ -109,7 +112,6 @@ void DocumentView::addSubRow(int row){
 
     list.at(0)->setEditable(false);
     item->appendRow(list);
-    item->sortChildren(0);
     QModelIndex temp = item->index();
     addRowToDocument(this, getIndexGlobalRow(temp) + item->rowCount());
     ui->tableView->expandAll();
@@ -157,12 +159,10 @@ int DocumentView::getIndexGlobalRow(QModelIndex &index){
 }
 
 void DocumentView::deleteColumn(){
-    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
 
-    if(index == QModelIndex())
-        return;
+    if(model->columnCount() > 2)
 
-    model->removeColumn(index.column());
+    model->removeColumn(model->columnCount()-1);
 }
 
 void DocumentView::mousePressEvent(QMouseEvent *event)
