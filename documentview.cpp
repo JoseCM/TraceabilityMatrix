@@ -156,9 +156,11 @@ int DocumentView::getIndexGlobalRow(QModelIndex &index){
 
 void DocumentView::deleteColumn(){
 
-    if(model->columnCount() > 2)
+    if(model->columnCount() > 2){
+        labels.removeLast();
+        model->removeColumn(model->columnCount()-1);
+    }
 
-    model->removeColumn(model->columnCount()-1);
 }
 
 void DocumentView::mousePressEvent(QMouseEvent *event)
