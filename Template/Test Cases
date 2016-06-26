@@ -1,0 +1,19 @@
+<document>Test Cases<row>
+  <ID>1</ID>
+  <Name>Test Requirement 1 </Name>
+  <Description>Must test requirement 1</Description>
+  <State>In-progress</State>
+  <subrow>
+   <ID>1.1</ID>
+   <Name>Test Requirement 1 functionality</Name>
+   <Description>Functional test </Description>
+   <State>In-progress</State>
+  </subrow>
+  <subrow>
+   <ID>1.2</ID>
+   <Name>Test Requirement 1 usability</Name>
+   <Description>Test usability</Description>
+   <State>In-progress</State>
+  </subrow>
+ </row>
+</document>

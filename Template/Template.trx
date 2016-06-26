@@ -1,0 +1,6 @@
+<trproject>Template<requirements>Template_requirements.xml</requirements>
+ <entry>
+  <document>Test Cases</document>
+  <matrix>Test Cases</matrix>
+ </entry>
+</trproject>
