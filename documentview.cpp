@@ -70,15 +70,11 @@ void DocumentView::addColumn(){
 }
 
 void DocumentView::addRow(){
-
     bool ok;
-
-    static int rowcount = 1;
 
     QStandardItem *item = model->invisibleRootItem();
     QList<QStandardItem*> list;
-    list << new QStandardItem(QString::number(rowcount));
-    rowcount++;
+    list << new QStandardItem(QString::number(item->rowCount() + 1));
     list << new QStandardItem("");
     for(int i = 2; i < model->columnCount(); i++)
         list << new QStandardItem("");
