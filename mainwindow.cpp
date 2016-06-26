@@ -65,7 +65,7 @@ void MainWindow::closeEvent ( QCloseEvent * event ){
        QMessageBox::StandardButton button =  QMessageBox::question(this, "Quit", "Save befor quitting?",
                                                        QMessageBox::Yes |  QMessageBox::No |  QMessageBox::Cancel );
        if(button == QMessageBox::Yes){
-           on_actionSave_Project_triggered();
+           saveProject();
            event->accept();
        } else if (button == QMessageBox::No){
            event->accept();
@@ -260,6 +260,7 @@ void MainWindow::on_actionOpen_Project_triggered()
     }
 
 
+    traceability->addRowToDocument(requirements, -1);
     traceability->updateReqListModel();
     project_open = true;
     ui->frame_2->hide();
@@ -276,8 +277,8 @@ void MainWindow::on_actionClose_Project_triggered()
     }
 
     QMessageBox::StandardButton button =  QMessageBox::question(this, "Close Project", "Save curent project before closing?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-    if (button == QMessageBox::Ok){
-        on_actionSave_Project_triggered();
+    if (button == QMessageBox::Yes){
+        saveProject();
     } else if (button == QMessageBox::Cancel){
         return;
     }

@@ -16,6 +16,9 @@ TraceabilityView::TraceabilityView(DocumentView* requirements,QWidget *parent) :
     model = nullptr;
 
     ui->tableView->setModel(model);
+    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tableView->verticalHeader()->setFixedWidth(100);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     //ui->tableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::);
 
     del = new CheckBoxDelegate(this);
