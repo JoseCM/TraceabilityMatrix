@@ -1,7 +1,7 @@
 <document>Template_requirements.xml<row>
   <ID>1</ID>
   <Name>Requirement Name 1</Name>
-  <Requirement Type>Functional</Requirement Type>
+  <Requirement-Type>Functional</Requirement-Type>
   <Status>In-Progress</Status>
   <Description>Requirement 1 Description</Description>
   <Priority>High</Priority>
@@ -10,7 +10,7 @@
  <row>
   <ID>2</ID>
   <Name>Requirement Name 2</Name>
-  <Requirement Type>Non-Functional</Requirement Type>
+  <Requirement-Type>Non-Functional</Requirement-Type>
   <Status>Deferred</Status>
   <Description>Requirement 2 Description</Description>
   <Priority>Low</Priority>
@@ -19,7 +19,7 @@
  <row>
   <ID>3</ID>
   <Name>Requirement Name 3</Name>
-  <Requirement Type>Technical</Requirement Type>
+  <Requirement-Type>Technical</Requirement-Type>
   <Status>Approved</Status>
   <Description>Requirement 3 Description</Description>
   <Priority>Medium</Priority>
