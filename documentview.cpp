@@ -225,7 +225,9 @@ void DocumentView::saveDocument(QString name){
 
         for(int j = 0; j < root->columnCount(); j++){
              QStandardItem *item = root->child(i, j);
-             QDomElement subsub =  doc.createElement(header.at(j));
+             QString temp = header.at(j);
+             temp.replace(" " , "-");
+             QDomElement subsub =  doc.createElement(temp);
              if(item)
                  subsub.appendChild(doc.createTextNode(item->text()));
              else
@@ -244,7 +246,9 @@ void DocumentView::saveDocument(QString name){
             for(int k = 0; k < root->columnCount(); k++){
 
                  QStandardItem *subitem = item->child(j, k);
-                 QDomElement subsub =  doc.createElement(header.at(k));
+                 QString temp = header.at(k);
+                 temp.replace(" " , "-");
+                 QDomElement subsub =  doc.createElement(temp);
                  if(subitem)
                      subsub.appendChild(doc.createTextNode(subitem->text()));
                  else
@@ -346,14 +350,16 @@ DocumentView* DocumentView::loadDocument(QString name){
                  column++;
 
                  if(!headlistdone){
-                     headlist <<  childNode.toElement().tagName();
+                     QString temp = childNode.toElement().tagName();
+                     temp.replace("-", " ");
+                     qDebug() << "Changed header: " << temp;
+                     headlist <<  temp;
                      if(column > 1)
                       newdoc->addEmptyColumn();
                   }
 
                   if(column != 0){
                       model->setItem(rown,column, new   QStandardItem(childNode.toElement().firstChild().nodeValue()));
-                      qDebug() << "DATA CHANGED: " << childNode.toElement().nodeValue();
                   }
 
              }
